@@ -1,8 +1,8 @@
 {
   "name": "nestjs-task-management",
-  "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "version": "1.0.0",
+  "description": "Nestjs Task Management",
+  "author": "Danilo Rodrigues Catapan",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
