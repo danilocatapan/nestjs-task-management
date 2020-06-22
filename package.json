@@ -47,7 +47,6 @@
     "eslint": "7.1.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-import": "^2.20.1",
-    "faker": "^4.1.0",
     "git-commit-msg-linter": "^2.4.3",
     "jest": "26.0.1",
     "prettier": "^1.19.1",
