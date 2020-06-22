@@ -32,16 +32,11 @@ export class TasksController {
   }
 
   @Get('/:id')
-  getTaskById(@Param('id', ParseIntPipe) id: number): Promise<Task> {
-    return this.tasksService.getTaskById(id);
-  }
-
-  @Patch('/:id/status')
-  updateTaskStatus(
+  getTaskById(
     @Param('id', ParseIntPipe) id: number,
-    @Body('status', TaskStatusValidationPipe) status: TaskStatus
+    @GetUser() user: User
   ): Promise<Task> {
-    return this.tasksService.updateTaskStatus(id, status);
+    return this.tasksService.getTaskById(id, user);
   }
 
   @Delete('/:id')
