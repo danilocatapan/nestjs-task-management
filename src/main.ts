@@ -8,11 +8,16 @@ async function bootstrap() {
   const logger = new Logger('bootstrap');
   const app = await NestFactory.create(AppModule);
 
+  if(process.env.NODE_ENV) {
+    logger.log(`*** process.env.NODE_ENV=${process.env.NODE_ENV} ***`);
+  } else {
+    logger.warn(`*** process.env.NODE_ENV=${process.env.NODE_ENV} ***`);
+  }
+
   if (process.env.NODE_ENV === 'development') {
     app.enableCors();
   } else {
-    app.enableCors();
-    //app.enableCors({ origin: serverConfig.origin });
+    app.enableCors({ origin: serverConfig.origin });
     logger.log(`Accepting requests from origin "${serverConfig.origin}"`);
   }
 
