@@ -10,9 +10,9 @@ export class UserRepository extends Repository<User> {
     const { username, password } = authCredentialsDto;
     const DUPLICATED = '23505'
 
-    const user = new User();
+    const user = this.create();
     user.username = username;
-    user.salt = await bcrypt.genSalt();;
+    user.salt = await bcrypt.genSalt();
     user.password = await this.hashPassword(password, user.salt);
 
     try {
@@ -24,8 +24,6 @@ export class UserRepository extends Repository<User> {
         throw new InternalServerErrorException();
       }
     }
-
-    await user.save();
   }
 
   async validateUserPassword(authCredentialsDto: AuthCredentialsDto): Promise<string> {
