@@ -82,5 +82,18 @@ describe('UserRepository', () => {
       expect(user.validatePassword).toHaveBeenCalled();
       expect(result).toBeNull();
     });
-  });  
+  });
+
+  describe('hashPassword', () => {
+    it('calls bcrypt.hash to generate a hash', async () => {
+      bcrypt.hash = jest.fn().mockResolvedValue(mockCredentialsDto.hashPassword);
+      expect(bcrypt.hash).not.toHaveBeenCalled();
+
+      const salt = await bcrypt.genSalt();
+      const result = await userRepository.hashPassword(mockCredentialsDto.password, salt);
+      expect(bcrypt.hash).toHaveBeenCalledWith(mockCredentialsDto.password, salt);
+      expect(result).toEqual(mockCredentialsDto.hashPassword);
+    });
+  });
+  
 });
