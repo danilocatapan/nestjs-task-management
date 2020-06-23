@@ -46,5 +46,41 @@ describe('UserRepository', () => {
       save.mockRejectedValue({ code: faker.random.number });
       expect(userRepository.signUp(mockCredentialsDto)).rejects.toThrow(InternalServerErrorException);
     });
+  });
+
+  describe('validateUserPassword', () => {
+    let user;
+
+    beforeEach(() => {
+      userRepository.findOne = jest.fn();
+      user = new User();
+      user.username = faker.internet.userName;
+      user.validatePassword = jest.fn();
+    });
+
+    test('returns the username as validation is successful', async () => {
+      userRepository.findOne.mockResolvedValue(user);
+      user.validatePassword.mockResolvedValue(true);
+
+      const result = await userRepository.validateUserPassword(mockCredentialsDto);
+      expect(result).toEqual(user.username);
+    });
+
+    test('returns null as user cannot be found', async () => {
+      userRepository.findOne.mockResolvedValue(null);
+      
+      const result = await userRepository.validateUserPassword(mockCredentialsDto);
+      expect(user.validatePassword).not.toHaveBeenCalled();
+      expect(result).toBeNull();
+    });
+
+    test('returns null as password is invalid', async () => {
+      userRepository.findOne.mockResolvedValue(user);
+      user.validatePassword.mockResolvedValue(false);
+
+      const result = await userRepository.validateUserPassword(mockCredentialsDto);
+      expect(user.validatePassword).toHaveBeenCalled();
+      expect(result).toBeNull();
+    });
   });  
 });
